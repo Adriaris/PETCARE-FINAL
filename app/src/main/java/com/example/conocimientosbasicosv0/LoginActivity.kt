@@ -1,7 +1,9 @@
 package com.example.conocimientosbasicosv0
 
+import SessionManager
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -30,18 +32,15 @@ class LoginActivity : AppCompatActivity() {
         val userPasswd = userPasswdInput.text.toString()
 
         if (userEmail.isNotEmpty() && userPasswd.isNotEmpty()) {
-            val cuenta = Cuenta(
-                email = userEmail,
-                passwd = userPasswd,
-            )
+            val datosUser = arrayListOf(userEmail, userPasswd)
             val apiService = RetrofitClient.create()
 
-
-            apiService.loginCuenta(cuenta).enqueue(object : Callback<Cuenta> {
+            apiService.loginCuenta(datosUser).enqueue(object : Callback<Cuenta> {
                 override fun onResponse(call: Call<Cuenta>, response: Response<Cuenta>) {
                     if (response.isSuccessful && response.body() != null) {
                         // Guardar la cuenta en el almacenamiento local
-                        SessionManager.saveLoggedInAccount(this@LoginActivity, response.body()!!)
+                        val sessionManager = SessionManager(this@LoginActivity)
+                        sessionManager.saveLoggedInAccount(response.body()!!)
                         // Abrir la actividad Home
                         val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                         startActivity(intent)
@@ -52,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<Cuenta>, t: Throwable) {
-
                     handleNetworkError(t)
                 }
             })
@@ -60,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Por favor, rellena ambos campos", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun handleLoginError(errorCode: Int) {
         // Manejar diferentes tipos de errores de login

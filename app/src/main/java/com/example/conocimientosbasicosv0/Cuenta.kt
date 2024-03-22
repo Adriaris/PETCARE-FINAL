@@ -4,8 +4,8 @@ import java.io.Serializable
 
 data class Cuenta(
     val idCuenta: Int? = null,
-    val email: String,
-    val passwd: String,
+    val email: String? = null,
+    val passwd: String? = null,
     val apellidoDos: String? = null,
     val apellidoUno: String? = null,
     val nombre: String? = null,
@@ -15,6 +15,7 @@ data class Cuenta(
     val urlFotoPerfil: String? = null,
     val username: String? = null
 ) : Serializable
+
 
 
 

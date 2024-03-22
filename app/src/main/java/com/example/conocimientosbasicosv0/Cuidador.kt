@@ -2,9 +2,9 @@ package com.example.conocimientosbasicosv0
 
 data class Cuidador(
     val nombre: String,
-    val puntuacion: Double,
-    val fotoUrl: String,
-    val precio: Double
-
+    val apellido1: String,
+    val apellido2: String,
+    val id: Int
 )
+
 

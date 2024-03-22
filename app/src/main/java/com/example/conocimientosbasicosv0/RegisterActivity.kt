@@ -45,13 +45,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser(email: String, password: String) {
-        val cuenta = Cuenta(
-            email = email,
-            passwd = password
-        )
+        // Construir el ArrayList con los datos del usuario
+        val datosUser = arrayListOf(email, password)
 
         val apiService = RetrofitClient.create()
-        apiService.registrarCuenta(cuenta).enqueue(object : Callback<Boolean> {
+        apiService.registrarCuenta(datosUser).enqueue(object : Callback<Boolean> {
             override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                 if (response.isSuccessful && response.body() == true) {
                     // Registro exitoso, redirigir al LoginActivity
@@ -71,6 +69,7 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
     }
+
 
 
 
