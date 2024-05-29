@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.squareup.picasso:picasso:2.71828")
     //RETROFIT
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     //GSON
@@ -45,6 +46,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     //GLIDE
     implementation("com.github.bumptech.glide:glide:4.13.2")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.2")
 
     //retrofit depurar

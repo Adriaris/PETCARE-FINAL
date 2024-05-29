@@ -4,6 +4,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="link_color">#03A9F4</color>
     <color name="colorPrimary">#90A955</color>
+    <color name="colorPrimaryCuidador">#61713C</color>
     <color name="red">#F08080</color>
+    <color name="brown">#B27035</color>
+    <color name="dark_green">#556B2F</color>
+
 
 </resources>
