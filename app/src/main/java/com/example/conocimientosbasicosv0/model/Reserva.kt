@@ -1,6 +1,8 @@
 package com.example.conocimientosbasicosv0.model
 
 data class Reserva(
-    val nombreReserva: String,
-    val detalles: List<String>
+    val idReserva: String,
+    val nombreCuidador: String,
+    val apellidoUno: String,
+    val apellidoDos: String
 )

@@ -27,14 +27,14 @@ class HomeCuidadorActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
 
-            R.id.iconoChat -> {
+           /* R.id.iconoChat -> {
                 supportFragmentManager.commit {
                     replace<ChatFragment>(R.id.frameContainerCuidador)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
                 return@OnNavigationItemSelectedListener true
-            }
+            }*/
 
             R.id.iconoConfiguracion -> {
                 supportFragmentManager.commit {

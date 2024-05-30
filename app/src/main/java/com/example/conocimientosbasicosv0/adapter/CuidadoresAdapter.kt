@@ -70,6 +70,7 @@ class CuidadoresAdapter(private var cuidadoresList: List<Cuidador>) : RecyclerVi
                 putExtra("apellido2", cuidador.apellido2)
                 putExtra("descripcionCorta", cuidador.descripcionCorta)
                 putExtra("descripcionLarga", cuidador.descripcionLarga)
+                putExtra("id", cuidador.id)
                 putStringArrayListExtra("mascotas", ArrayList(cuidador.mascotas))
             }
             context.startActivity(intent)

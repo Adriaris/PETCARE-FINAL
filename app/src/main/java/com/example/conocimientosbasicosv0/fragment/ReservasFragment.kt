@@ -28,12 +28,14 @@ class ReservasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
 
-        // Obtener el ID de la cuenta desde el utils.SessionManager
+        // Obtener el ID del dueño desde el SessionManager
         val sessionManager = SessionManager(requireContext())
-        val idCuenta = sessionManager.getLoggedInAccount()?.idCuenta
+        val idDueño = sessionManager.getIdCuenta()
 
-        // Si el ID de la cuenta no es nulo, cargar las reservas
-        idCuenta?.let { cargarReservas(it) }
+        // Si el ID del dueño no es nulo, cargar las reservas
+        if (idDueño != 0) {
+            cargarReservas(idDueño)
+        }
     }
 
     private fun setupRecyclerView(view: View) {
@@ -43,22 +45,28 @@ class ReservasFragment : Fragment() {
         recyclerView.adapter = reservasAdapter
     }
 
-    private fun cargarReservas(idCuenta: Int) {
-        RetrofitClient.create().getReservas(idCuenta).enqueue(object : Callback<Map<String, List<String>>> {
-            override fun onResponse(call: Call<Map<String, List<String>>>, response: Response<Map<String, List<String>>>) {
+    private fun cargarReservas(idDueño: Int) {
+        RetrofitClient.create().getReservas(idDueño).enqueue(object : Callback<Map<String, Map<String, String>>> {
+            override fun onResponse(call: Call<Map<String, Map<String, String>>>, response: Response<Map<String, Map<String, String>>>) {
                 if (response.isSuccessful) {
                     // Transformar la respuesta en una lista de objetos Reserva
-                    val reservasList = response.body()?.map { Reserva(it.key, it.value) } ?: emptyList()
+                    val reservasList = response.body()?.map {
+                        Reserva(
+                            idReserva = it.key,
+                            nombreCuidador = it.value["Nombre: "] ?: "",
+                            apellidoUno = it.value["Apellido uno: "] ?: "",
+                            apellidoDos = it.value["Apellido dos: "] ?: ""
+                        )
+                    } ?: emptyList()
                     reservasAdapter.updateReservas(reservasList)
                 } else {
                     // Manejar respuesta no exitosa
                 }
             }
 
-            override fun onFailure(call: Call<Map<String, List<String>>>, t: Throwable) {
+            override fun onFailure(call: Call<Map<String, Map<String, String>>>, t: Throwable) {
                 // Manejar fallo en la llamada
             }
         })
-    }}
-
-
+    }
+}

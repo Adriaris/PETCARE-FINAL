@@ -48,14 +48,14 @@ class HomeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
 
-            R.id.iconoChat -> {
+            /*R.id.iconoChat -> {
                 supportFragmentManager.commit {
                     replace<ChatFragment>(R.id.frameContainer)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
                 return@OnNavigationItemSelectedListener true
-            }
+            }*/
 
             R.id.iconoPerfil -> {
                 supportFragmentManager.commit {

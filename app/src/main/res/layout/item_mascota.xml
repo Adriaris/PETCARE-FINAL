@@ -18,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/razaTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:textStyle="italic" />
 
     </LinearLayout>

@@ -27,8 +27,8 @@ interface APIService {
     @GET("getServiciosCuidador/{id}") //id del srevicio que ofrece el cuidador
     fun getServiciosCuidador(@Path("id") id: Int): Call<Map<String, List<String>>>
 
-    @GET("getReservas/{idCuenta}")
-    fun getReservas(@Path("idCuenta") idCuenta: Int): Call<Map<String, List<String>>>
+    //@GET("getReservas/{idCuenta}")
+    //fun getReservas(@Path("idCuenta") idCuenta: Int): Call<Map<String, List<String>>>
 
     @PUT("updateC")
     fun updateC(@Body cuentaMap: Map<String, String>): Call<Void>
@@ -62,6 +62,23 @@ interface APIService {
 
     @GET("getMascotasDueño/{idDueno}")
     fun getMascotasByDueño(@Path("idDueno") idDueno: Int): Call<Map<String, MascotaInfo>>
+
+    @POST("addReserva")
+    fun addReserva(@Body datosReserva: Map<String, Int>): Call<Void>
+
+    @POST("setMascotaReservada")
+    fun setMascotaReservada(@Body idsReservaMascotas: List<Int>): Call<Void>
+
+    @GET("getMascotasReservadas/{idDueno}")
+    fun getMascotasReservadas(@Path("idDueno") idDueño: Int): Call<Map<String, String>>
+
+    @GET("getReservasDueño/{idDueno}")
+    fun getReservas(@Path("idDueno") idDueno: Int): Call<Map<String, Map<String, String>>>
+
+
+
+
+
 
 }
 

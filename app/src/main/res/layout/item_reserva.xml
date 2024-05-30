@@ -3,18 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:background="@drawable/service_box_background"
+    android:layout_marginBottom="8dp">
 
     <TextView
-        android:id="@+id/textViewNombreReserva"
-        android:layout_width="match_parent"
+        android:id="@+id/nombreTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/black"
+        android:text="Nombre del Cuidador" />
 
     <TextView
-        android:id="@+id/textViewDetalles"
-        android:layout_width="match_parent"
+        android:id="@+id/apellidosTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/black"
+        android:text="Apellidos del Cuidador" />
 </LinearLayout>

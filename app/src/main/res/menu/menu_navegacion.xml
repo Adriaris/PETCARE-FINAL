@@ -15,11 +15,11 @@
         android:icon="@drawable/ic_reservas"
         android:title="Reservas"
         />
-    <item
+    <!--<item
         android:id="@+id/iconoChat"
         android:icon="@drawable/ic_chat"
         android:title="Chat"
-        />
+        />-->
     <item
         android:id="@+id/iconoPerfil"
         android:icon="@drawable/ic_perfil"
