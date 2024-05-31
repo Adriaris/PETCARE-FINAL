@@ -12,11 +12,9 @@ data class Cuenta(
     val passwd: String?,
     val telefono: Int?,
     var tipoPerfil: Byte?,
-    val urlImagenes: String?,
+    val urlImagenes: String? = null,
     val username: String?
 ) : Serializable
-
-
 
 
 

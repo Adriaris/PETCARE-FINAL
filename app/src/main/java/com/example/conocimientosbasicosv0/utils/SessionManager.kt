@@ -1,6 +1,7 @@
 package com.example.conocimientosbasicosv0.utils
 
 import android.content.Context
+import android.util.Log
 import com.example.conocimientosbasicosv0.model.Cuenta
 import com.google.gson.Gson
 
@@ -17,6 +18,8 @@ class SessionManager(context: Context) {
         val cuentaJson = gson.toJson(cuenta)
         editor.putString(USER_ACCOUNT_KEY, cuentaJson)
         editor.apply()
+        Log.d("SESSION MANAGER", "${cuenta}")
+
     }
 
     fun getLoggedInAccount(): Cuenta? {

@@ -16,8 +16,8 @@
         android:title="Reservas"
         />
     <!--<item
-        android:id="@+id/iconoChat"
-        android:icon="@drawable/ic_chat"
+        android:id="@+id/iconoFavoritos"
+        android:icon="@drawable/ic_favoritos"
         android:title="Chat"
         />-->
     <item

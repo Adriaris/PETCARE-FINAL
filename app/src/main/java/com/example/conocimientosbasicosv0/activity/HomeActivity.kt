@@ -2,12 +2,12 @@ package com.example.conocimientosbasicosv0.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.conocimientosbasicosv0.R
-import com.example.conocimientosbasicosv0.fragment.ChatFragment
-import com.example.conocimientosbasicosv0.fragment.CrearMascotaFragment
+import com.example.conocimientosbasicosv0.fragment.FavoritosFragment
 import com.example.conocimientosbasicosv0.fragment.MascotasDuenoFragment
 import com.example.conocimientosbasicosv0.fragment.MascotasFragment
 import com.example.conocimientosbasicosv0.fragment.PerfilFragment
@@ -48,9 +48,9 @@ class HomeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
 
-            /*R.id.iconoChat -> {
+            /*R.id.iconoFavoritos -> {
                 supportFragmentManager.commit {
-                    replace<ChatFragment>(R.id.frameContainer)
+                    replace<FavoritosFragment>(R.id.frameContainer)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
@@ -77,6 +77,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Verificar si el usuario está logueado
         val sessionManager = SessionManager(this)
+        Log.d("SESSION MANAGER", "${sessionManager.getIdCuenta()}")
         if (!sessionManager.isLoggedIn()) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

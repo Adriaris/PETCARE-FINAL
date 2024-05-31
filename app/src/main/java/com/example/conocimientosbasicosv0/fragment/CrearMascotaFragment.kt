@@ -123,13 +123,12 @@ class CrearMascotaFragment : Fragment() {
             duenyoId.toString()
         )
 
-        Log.d("CrearMascotaFragment", "Enviando mascota: $mascotaInfo")
+        //Log.d("CrearMascotaFragment", "Enviando mascota: $mascotaInfo")
 
         apiService.addMascota(mascotaInfo).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Mascota agregada exitosamente", Toast.LENGTH_SHORT).show()
-                    // Navegar hacia atrás o realizar otra acción según sea necesario
                     fragmentManager?.popBackStack()
                 } else {
                     Toast.makeText(context, "Error al agregar mascota", Toast.LENGTH_SHORT).show()

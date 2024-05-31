@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@android:color/white">
 
     <!-- Encabezado verde con botón de volver -->
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Perfil cuidador"
+            android:text="Cuidador Perfil"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"/>
 
@@ -70,7 +70,14 @@
                 android:gravity="center"
                 android:layout_marginBottom="8dp"/>
 
-
+            <TextView
+                android:id="@+id/descripcionCortaTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:id="@+id/descripcionLargaTextView"
@@ -80,16 +87,40 @@
                 android:textColor="@android:color/black"
                 android:layout_marginBottom="16dp"/>
 
+            <TextView
+                android:id="@+id/mascotasTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar mascotas"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/mascotasContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
             <Button
                 android:id="@+id/solicitarReservaButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Solicitar reserva"
+                android:text="Solicitar Reserva"
                 android:layout_marginTop="16dp"
-                android:padding="16dp"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:enabled="false" />
 
+            <!-- Botón para añadir a favoritos -->
+            <Button
+                android:id="@+id/addToFavoritesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Añadir a favoritos"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/gold"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

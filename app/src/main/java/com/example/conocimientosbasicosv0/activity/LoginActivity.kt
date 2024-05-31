@@ -54,46 +54,80 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun iniciarSesion(datosUser: ArrayList<String>) {
-        apiService.loginCuenta(datosUser).enqueue(object : Callback<Cuenta> {
-            override fun onResponse(call: Call<Cuenta>, response: Response<Cuenta>) {
+    private fun iniciarSesion(datosUser: List<String>) {
+        apiService.loginCuenta(datosUser).enqueue(object : Callback<Map<String, Any>> {
+            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 if (response.isSuccessful && response.body() != null) {
-                    val cuenta = response.body()!!
-                    val sessionManager = SessionManager(this@LoginActivity)
-                    sessionManager.saveLoggedInAccount(cuenta)
-                    Log.d("TIPO CUENTA", "Tipo de cuenta: ${cuenta.tipoPerfil}")
-                    when (cuenta.tipoPerfil) {
-                        0.toByte() -> verificarAccesoDueño(cuenta)
-                        1.toByte() -> verificarAccesoCuidador(cuenta)
-                        else -> Toast.makeText(this@LoginActivity, "Tipo de perfil desconocido", Toast.LENGTH_SHORT).show()
+                    val body = response.body()!!
+                    if (body["state"] == "Error") {
+                        Toast.makeText(this@LoginActivity, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val cuenta = Cuenta(
+                            idCuenta = (body["idCuenta"] as? Number)?.toInt(),
+                            apellidoDos = body["apellido dos"] as? String,
+                            apellidoPrimero = body["apellido Uno"] as? String,
+                            email = body["correo"] as? String,
+                            movil = (body["movil"] as? Number)?.toInt(),
+                            nombre = body["nombre"] as? String,
+                            passwd = body["password"] as? String,
+                            telefono = (body["telefono"] as? Number)?.toInt(),
+                            tipoPerfil = (body["tipo perfil"] as? Number)?.toByte(),
+                            urlImagenes = null, // Este campo no se devuelve en la nueva respuesta
+                            username = body["username"] as? String
+                        )
+
+                        // Verificar que tipoPerfil no es nulo antes de proceder
+                        if (cuenta.tipoPerfil == null) {
+                            Toast.makeText(this@LoginActivity, "Tipo de perfil es nulo", Toast.LENGTH_SHORT).show()
+                            return
+                        }
+
+                        val sessionManager = SessionManager(this@LoginActivity)
+                        sessionManager.saveLoggedInAccount(cuenta)
+                        Log.d("TIPO CUENTA", "Tipo de cuenta: ${cuenta.tipoPerfil}")
+
+                        when (cuenta.tipoPerfil) {
+                            0.toByte() -> verificarAccesoDueño(cuenta)
+                            1.toByte() -> verificarAccesoCuidador(cuenta)
+                            else -> Toast.makeText(this@LoginActivity, "Tipo de perfil desconocido", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 } else {
                     handleLoginError(response.code())
                 }
             }
 
-            override fun onFailure(call: Call<Cuenta>, t: Throwable) {
+            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                 Toast.makeText(this@LoginActivity, "Error al iniciar sesión: ${t.message}", Toast.LENGTH_SHORT).show()
                 t.printStackTrace()
             }
         })
     }
 
+
+
+
+
+
     private fun verificarAccesoDueño(cuenta: Cuenta) {
-        apiService.getTimeAccessDueño(cuenta.idCuenta!!).enqueue(object : Callback<Int> {
+        val idCuenta = cuenta.idCuenta
+        if (idCuenta == null) {
+            Toast.makeText(this, "Error: idCuenta es nulo", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        apiService.getTimeAccessDueño(idCuenta).enqueue(object : Callback<Int> {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
-
                 if (response.isSuccessful) {
-
                     val accessTime = response.body()!!
                     if (accessTime == 0) {
                         val intent = Intent(this@LoginActivity, PopupDuenoActivity::class.java).apply {
                             putExtra("EXTRA_CUENTA", cuenta)
                         }
-
                         Log.d("PopupDuenoActivity", "intento abrir el popup 2")
                         startActivity(intent)
                     } else {
+                        Log.d("PopupDuenoActivity", "${accessTime}")
                         navegarHomeActivity(cuenta)
                     }
                 } else {
@@ -108,7 +142,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun verificarAccesoCuidador(cuenta: Cuenta) {
-        apiService.getAccesTimes(cuenta.idCuenta!!).enqueue(object : Callback<Int> {
+        val idCuenta = cuenta.idCuenta
+        if (idCuenta == null) {
+            Toast.makeText(this, "Error: idCuenta es nulo", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        apiService.getAccesTimes(idCuenta).enqueue(object : Callback<Int> {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if (response.isSuccessful) {
                     val accessTime = response.body()!!
@@ -130,6 +170,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun navegarHomeActivity(cuenta: Cuenta) {
         val intent = Intent(this@LoginActivity, HomeActivity::class.java).apply {

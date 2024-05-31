@@ -81,7 +81,7 @@ class MascotasDuenoFragment : Fragment() {
             nombreTextView.text = "${mascota.nombre}"
             razaTextView.text = " ${mascota.raza}" // Asume que quieres mostrar el idRaza aquí
 
-            setAnimalImage(animalImageView, mascota.animal)
+            mascota.animal?.let { setAnimalImage(animalImageView, it) }
 
             view.setOnClickListener {
                 val fragment = MascotaUnicaFragment.newInstance(mascota)

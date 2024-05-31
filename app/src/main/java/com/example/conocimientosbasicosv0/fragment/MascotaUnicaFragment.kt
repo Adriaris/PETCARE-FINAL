@@ -52,9 +52,9 @@ class MascotaUnicaFragment : Fragment() {
         edadTextView.text = "Edad: ${mascota.edad}"
         pesoTextView.text = "Peso: ${mascota.peso}"
         enfermedadesTextView.text = "Enfermedades: ${mascota.enfermedades}"
-        descripcionTextView.text = "Descripción: ${mascota.Descripcion}"
+        descripcionTextView.text = "Descripción: ${mascota.descripcion}"
 
-        setAnimalImage(animalImageView, mascota.animal)
+        mascota.animal?.let { setAnimalImage(animalImageView, it) }
 
         return view
     }
