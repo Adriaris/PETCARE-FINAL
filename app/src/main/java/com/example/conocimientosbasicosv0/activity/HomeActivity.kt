@@ -48,14 +48,14 @@ class HomeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
 
-            /*R.id.iconoFavoritos -> {
+            R.id.iconoFavoritos -> {
                 supportFragmentManager.commit {
                     replace<FavoritosFragment>(R.id.frameContainer)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }
                 return@OnNavigationItemSelectedListener true
-            }*/
+            }
 
             R.id.iconoPerfil -> {
                 supportFragmentManager.commit {

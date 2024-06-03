@@ -2,6 +2,7 @@ package com.example.conocimientosbasicosv0.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.example.conocimientosbasicosv0.R
 import com.example.conocimientosbasicosv0.activity.CuidadorProfileActivity
 import com.example.conocimientosbasicosv0.model.Cuidador
 
-class CuidadoresAdapter(private var cuidadoresList: List<Cuidador>) : RecyclerView.Adapter<CuidadoresAdapter.CuidadorViewHolder>() {
+class CuidadoresAdapter(private var cuidadoresList: List<Cuidador>, private val servicioId: Int) : RecyclerView.Adapter<CuidadoresAdapter.CuidadorViewHolder>() {
 
     class CuidadorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView)
@@ -32,6 +33,7 @@ class CuidadoresAdapter(private var cuidadoresList: List<Cuidador>) : RecyclerVi
         holder.usernameTextView.text = cuidador.username
         holder.nombreApellidoTextView.text = "${cuidador.nombre} ${cuidador.apellido1} ${cuidador.apellido2}"
         holder.descripcionCortaTextView.text = cuidador.descripcionCorta
+        Log.e("CuidadorAdapter", "SERVICIO ${servicioId}")
 
         // Limpiar cualquier imagen previa en el contenedor de mascotas
         holder.mascotasContainer.removeAllViews()
@@ -70,7 +72,8 @@ class CuidadoresAdapter(private var cuidadoresList: List<Cuidador>) : RecyclerVi
                 putExtra("apellido2", cuidador.apellido2)
                 putExtra("descripcionCorta", cuidador.descripcionCorta)
                 putExtra("descripcionLarga", cuidador.descripcionLarga)
-                putExtra("id", cuidador.id)
+                putExtra("id", cuidador.idCuidador)
+                putExtra("servicioId", servicioId)
                 putStringArrayListExtra("mascotas", ArrayList(cuidador.mascotas))
             }
             context.startActivity(intent)

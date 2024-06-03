@@ -8,11 +8,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.conocimientosbasicosv0.R
 import com.example.conocimientosbasicosv0.model.Reserva
 
-class ReservasAdapter(private var reservasList: List<Reserva>) : RecyclerView.Adapter<ReservasAdapter.ReservaViewHolder>() {
+class ReservasAdapter(private var reservas: List<Reserva>) : RecyclerView.Adapter<ReservasAdapter.ReservaViewHolder>() {
 
-    class ReservaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombreTextView: TextView = itemView.findViewById(R.id.nombreTextView)
-        val apellidosTextView: TextView = itemView.findViewById(R.id.apellidosTextView)
+    inner class ReservaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val nombreTextView: TextView = itemView.findViewById(R.id.nombreTextView)
+        private val apellidosTextView: TextView = itemView.findViewById(R.id.apellidosTextView)
+        private val servicioTextView: TextView = itemView.findViewById(R.id.servicioTextView)
+        private val mascotasTextView: TextView = itemView.findViewById(R.id.mascotasTextView)
+
+        fun bind(reserva: Reserva) {
+            nombreTextView.text = reserva.nombreCuidador
+            apellidosTextView.text = "${reserva.apellidoUno} ${reserva.apellidoDos}"
+            //servicioTextView.text = reserva.servicio
+
+            val mascotasInfo = reserva.mascotas.entries.joinToString("\n") { entry ->
+                val mascota = entry.value
+                "${mascota["animal"]}: ${mascota["nombre"]} (${mascota["raza"]})"
+            }
+            mascotasTextView.text = mascotasInfo
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservaViewHolder {
@@ -21,17 +35,13 @@ class ReservasAdapter(private var reservasList: List<Reserva>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ReservaViewHolder, position: Int) {
-        val reserva = reservasList[position]
-        holder.nombreTextView.text = reserva.nombreCuidador
-        holder.apellidosTextView.text = "${reserva.apellidoUno} ${reserva.apellidoDos}"
+        holder.bind(reservas[position])
     }
 
-    override fun getItemCount(): Int {
-        return reservasList.size
-    }
+    override fun getItemCount(): Int = reservas.size
 
-    fun updateReservas(newReservasList: List<Reserva>) {
-        reservasList = newReservasList
+    fun updateReservas(nuevasReservas: List<Reserva>) {
+        reservas = nuevasReservas
         notifyDataSetChanged()
     }
 }

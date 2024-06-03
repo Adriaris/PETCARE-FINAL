@@ -8,6 +8,7 @@ import com.example.conocimientosbasicosv0.R
 import com.example.conocimientosbasicosv0.fragment.RegistroCuidadorFragment
 
 import com.example.conocimientosbasicosv0.fragment.PerfilFragment
+import com.example.conocimientosbasicosv0.fragment.ReservasCuidadorFragment
 import com.example.conocimientosbasicosv0.fragment.ReservasFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -18,7 +19,7 @@ class HomeCuidadorActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.iconoReservas -> {
                 supportFragmentManager.commit {
-                    replace<ReservasFragment>(R.id.frameContainerCuidador)
+                    replace<ReservasCuidadorFragment>(R.id.frameContainerCuidador)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }

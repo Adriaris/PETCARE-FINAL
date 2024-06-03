@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.conocimientosbasicosv0.R
+import com.example.conocimientosbasicosv0.api.RetrofitClient
 import com.example.conocimientosbasicosv0.data.MascotaInfo
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MascotaUnicaFragment : Fragment() {
 
@@ -46,6 +50,7 @@ class MascotaUnicaFragment : Fragment() {
         val pesoTextView = view.findViewById<TextView>(R.id.pesoTextView)
         val enfermedadesTextView = view.findViewById<TextView>(R.id.enfermedadesTextView)
         val descripcionTextView = view.findViewById<TextView>(R.id.descripcionTextView)
+        val buttonDeleteMascota = view.findViewById<Button>(R.id.buttonDeleteMascota)
 
         nombreTextView.text = "Nombre: ${mascota.nombre}"
         razaTextView.text = "Raza: ${mascota.raza}"
@@ -54,7 +59,15 @@ class MascotaUnicaFragment : Fragment() {
         enfermedadesTextView.text = "Enfermedades: ${mascota.enfermedades}"
         descripcionTextView.text = "Descripción: ${mascota.descripcion}"
 
-        mascota.animal?.let { setAnimalImage(animalImageView, it) }
+        mascota.animal.let {
+            if (it != null) {
+                setAnimalImage(animalImageView, it)
+            }
+        }
+
+        buttonDeleteMascota.setOnClickListener {
+            mascota.idMascota?.let { it1 -> mostrarConfirmacionEliminarMascota(it1) }
+        }
 
         return view
     }
@@ -73,5 +86,31 @@ class MascotaUnicaFragment : Fragment() {
             "Serpiente" -> imageView.setImageResource(R.drawable.serpiente)
             else -> imageView.setImageResource(android.R.color.transparent)
         }
+    }
+
+    private fun mostrarConfirmacionEliminarMascota(idMascota: Int) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmar eliminación")
+            .setMessage("¿Estás seguro de que deseas eliminar esta mascota? Esta acción no se puede deshacer.")
+            .setPositiveButton("Eliminar") { _, _ -> eliminarMascota(idMascota) }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun eliminarMascota(idMascota: Int) {
+        RetrofitClient.create().deleteMascota(idMascota).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Mascota eliminada con éxito", Toast.LENGTH_SHORT).show()
+                    activity?.supportFragmentManager?.popBackStack()
+                } else {
+                    Toast.makeText(requireContext(), "Error al eliminar la mascota", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(requireContext(), "Fallo en la conexión: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

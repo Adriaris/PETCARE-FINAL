@@ -25,5 +25,6 @@
         android:text="Guardar Mascota"
         android:layout_below="@id/editTextEdadMascota"
         android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_marginTop="16dp"/>
 </RelativeLayout>

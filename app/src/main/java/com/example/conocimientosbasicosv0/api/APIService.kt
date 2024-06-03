@@ -7,10 +7,14 @@ import com.example.conocimientosbasicosv0.model.Cuidador
 import com.example.conocimientosbasicosv0.model.Mascota
 import com.example.conocimientosbasicosv0.model.Raza
 import com.example.conocimientosbasicosv0.model.ReservaMascotaRequest
+import com.example.conocimientosbasicosv0.model.ReservaRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.Call
+import retrofit2.http.DELETE
+import retrofit2.http.HTTP
+import retrofit2.http.Headers
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -62,22 +66,34 @@ interface APIService {
     fun getMascotasReservadas(@Path("idDueno") idDueño: Int): Call<Map<String, String>>
 
     @GET("getReservasDueño/{idDueno}")
-    fun getReservas(@Path("idDueno") idDueno: Int): Call<Map<String, Map<String, String>>>
+    fun getReservas(@Path("idDueno") idDueño: Int): Call<Map<String, Map<String, Any>>>
 
-    @POST("setMascotaReservada")
-    fun setMascotaReservada(@Body idsReservaMascotas: ReservaMascotaRequest): Call<Void>
+    @GET("getReservasCuidador/{idCuidador}")
+    fun getReservasCuidador(@Path("idCuidador") idCuidador: Int): Call<Map<String, Map<String, Any>>>
 
     @GET("getMascotasDueño/{idDueno}")
     fun getMascotasByDueño(@Path("idDueno") idDueno: Int): Call<Map<String, MascotaInfo>>
 
     @POST("addReserva")
-    fun addReserva(@Body datosReserva: Map<String, Int>): Call<Int>
+    fun addReserva(@Body datosReserva: ReservaRequest): Call<Int>
+
+    @POST("setMascotaReservada")
+    fun setMascotaReservada(@Body idsReservaMascotas: ReservaMascotaRequest): Call<Void>
 
     @POST("setCuidadorFavorito")
     fun setCuidadorFavorito(@Body idsCuidadores: Map<String, Int>): Call<Void>
 
     @GET("getCuidadoresFavoritos/{idDueno}")
-    fun getCuidadoresFavoritos(@Path("idDueno") idDueno: Int): Call<List<Cuidador>>
+    fun getCuidadoresFavoritos(@Path("idDueno") idDueno: Int): Call<Map<String, Map<String, Any>>>
+
+    @HTTP(method = "DELETE", path = "deleteCuidadorFavorito", hasBody = true)
+    fun deleteCuidadorFavorito(@Body idsCuidadoresFavoritos: Map<String, Int>): Call<Void>
+
+    @DELETE("deleteCuentaId/{id}")
+    fun deleteCuenta(@Path("id") id: Int): Call<Void>
+
+    @DELETE("deleteMascota/{idMascota}")
+    fun deleteMascota(@Path("idMascota") idMascota: Int): Call<Void>
 }
 
 

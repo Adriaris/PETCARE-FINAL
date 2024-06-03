@@ -1,6 +1,7 @@
 package com.example.conocimientosbasicosv0.fragment
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -37,6 +38,7 @@ class PerfilFragment : Fragment() {
     private lateinit var buttonEdit: Button
     private lateinit var buttonSave: Button
     private lateinit var buttonLogout: Button
+    private lateinit var buttonDeleteAccount: Button
     private var imageUri: Uri? = null
 
     companion object {
@@ -68,6 +70,7 @@ class PerfilFragment : Fragment() {
         buttonEdit = view.findViewById(R.id.buttonEdit)
         buttonSave = view.findViewById(R.id.buttonSave)
         buttonLogout = view.findViewById(R.id.buttonLogout)
+        buttonDeleteAccount = view.findViewById(R.id.buttonDeleteAccount)
         val switchPerfil = view.findViewById<Switch>(R.id.switchPerfil)
 
         // Configurar el switch
@@ -90,7 +93,6 @@ class PerfilFragment : Fragment() {
                 activity?.finish()
             }
         }
-
 
         // Cargar datos del usuario
         cuenta?.let {
@@ -161,9 +163,14 @@ class PerfilFragment : Fragment() {
             })
         }
 
-
         buttonLogout.setOnClickListener {
             cerrarSesion()
+        }
+
+        buttonDeleteAccount.setOnClickListener {
+            cuenta?.idCuenta?.let { id ->
+                mostrarConfirmacionEliminarCuenta(id)
+            }
         }
 
         imageViewPerfil.setOnClickListener {
@@ -177,6 +184,7 @@ class PerfilFragment : Fragment() {
         // Aquí puedes actualizar la interfaz según el perfil seleccionado.
         // Por ejemplo, cambiar colores o mostrar/ocultar opciones específicas para dueños o cuidadores.
     }
+
     private fun enableEditing(enable: Boolean) {
         editTextNombre.isEnabled = enable
         editTextApellidoUno.isEnabled = enable
@@ -219,5 +227,33 @@ class PerfilFragment : Fragment() {
         startActivity(intent)
 
         activity?.finish()
+    }
+
+    private fun mostrarConfirmacionEliminarCuenta(idCuenta: Int) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmar eliminación")
+            .setMessage("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.")
+            .setPositiveButton("Eliminar") { _, _ -> eliminarCuenta(idCuenta) }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun eliminarCuenta(idCuenta: Int) {
+        RetrofitClient.create().deleteCuenta(idCuenta).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Cuenta eliminada con éxito", Toast.LENGTH_SHORT).show()
+                    cerrarSesion() // Cerrar sesión después de eliminar la cuenta
+                } else {
+                    Toast.makeText(requireContext(), "Error al eliminar la cuenta", Toast.LENGTH_SHORT).show()
+                    Log.e("PerfilFragment", "Error al eliminar la cuenta: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(requireContext(), "Fallo en la conexión: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("PerfilFragment", "Fallo en la conexión", t)
+            }
+        })
     }
 }

@@ -16,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReservasFragment : Fragment() {
+class ReservasCuidadorFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var reservasAdapter: ReservasAdapter
 
@@ -28,13 +28,11 @@ class ReservasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
 
-        // Obtener el ID del dueño desde el SessionManager
         val sessionManager = SessionManager(requireContext())
-        val idDueño = sessionManager.getIdCuenta()
+        val idCuidador = sessionManager.getIdCuenta()
 
-        // Si el ID del dueño no es nulo, cargar las reservas
-        if (idDueño != 0) {
-            cargarReservas(idDueño)
+        if (idCuidador != 0) {
+            cargarReservasCuidador(idCuidador)
         }
     }
 
@@ -45,19 +43,19 @@ class ReservasFragment : Fragment() {
         recyclerView.adapter = reservasAdapter
     }
 
-    private fun cargarReservas(idDueño: Int) {
-        RetrofitClient.create().getReservas(idDueño).enqueue(object : Callback<Map<String, Map<String, Any>>> {
+    private fun cargarReservasCuidador(idCuidador: Int) {
+        RetrofitClient.create().getReservasCuidador(idCuidador).enqueue(object : Callback<Map<String, Map<String, Any>>> {
             override fun onResponse(call: Call<Map<String, Map<String, Any>>>, response: Response<Map<String, Map<String, Any>>>) {
                 if (response.isSuccessful) {
-                    // Transformar la respuesta en una lista de objetos Reserva
                     val reservasList = response.body()?.map {
-                        val mascotas = it.value["mascota"] as Map<String, Map<String, String>>
+                        val mascotas = it.value["Mascotas"] as Map<String, Map<String, String>>
                         Reserva(
                             idReserva = it.key,
                             nombreCuidador = it.value["Nombre: "] as String,
                             apellidoUno = it.value["Apellido uno"] as String,
                             apellidoDos = it.value["Apellido dos"] as String,
                             mascotas = mascotas
+                            //servicio = it.value["Servicio"] as String
                         )
                     } ?: emptyList()
                     reservasAdapter.updateReservas(reservasList)

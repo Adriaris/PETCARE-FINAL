@@ -27,9 +27,13 @@ class CuidadoresActivity : AppCompatActivity() {
         // Configuración inicial del RecyclerView con un adaptador vacío.
         val recyclerView = findViewById<RecyclerView>(R.id.cuidadoresRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = CuidadoresAdapter(emptyList())
 
         val servicioId = intent.getIntExtra("EXTRA_SERVICIO_ID", -1)
+        Log.e("CuidadorActivity", "SERVICIO ${servicioId}")
+        recyclerView.adapter = CuidadoresAdapter(emptyList(), servicioId)
+
+
+
         if (servicioId != -1) {
             cargarCuidadores(servicioId)
         } else {
@@ -47,7 +51,7 @@ class CuidadoresActivity : AppCompatActivity() {
                             nombre = detalles.getOrNull(0) ?: "",
                             apellido1 = detalles.getOrNull(1) ?: "",
                             apellido2 = detalles.getOrNull(2) ?: "",
-                            id = detalles.getOrNull(3)?.toIntOrNull() ?: 0,
+                            idCuidador = detalles.getOrNull(3)?.toIntOrNull() ?: 0,
                             username = detalles.getOrNull(4) ?: "",
                             descripcionCorta = detalles.getOrNull(5) ?: "",
                             descripcionLarga = detalles.getOrNull(6) ?: "",
@@ -56,7 +60,7 @@ class CuidadoresActivity : AppCompatActivity() {
                     }
 
                     val recyclerView = findViewById<RecyclerView>(R.id.cuidadoresRecyclerView)
-                    recyclerView.adapter = CuidadoresAdapter(cuidadoresList)
+                    recyclerView.adapter = CuidadoresAdapter(cuidadoresList, servicioId)
                 } else {
                     Log.e("CuidadoresActivity", "Error al obtener cuidadores, código de respuesta: ${response.code()}")
                 }

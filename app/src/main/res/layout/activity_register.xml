@@ -131,6 +131,7 @@
         android:layout_marginStart="152dp"
         android:layout_marginBottom="28dp"
         android:text="Registrarse"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/textViewLogin"
 
         app:layout_constraintStart_toStartOf="parent" />

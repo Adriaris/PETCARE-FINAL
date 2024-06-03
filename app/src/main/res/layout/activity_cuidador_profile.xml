@@ -1,18 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white">
 
-    <!-- Encabezado verde con botón de volver -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/colorPrimary"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:padding="16dp">
 
         <ImageButton
             android:id="@+id/backButton"
@@ -20,23 +17,38 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_atras_background"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Cuidador Perfil"
+            android:text="👤 Cuidador Perfil"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/addToFavoritesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_favoritos_blanco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,83 +56,92 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
-            <ImageView
-                android:id="@+id/profileImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_perfil" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/gray"
+                android:padding="16dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/profileImageView"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_perfil"
+                    android:padding="8dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/usernameTextView"
-                android:layout_width="wrap_content"
+                android:paddingTop="16dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/black"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"/>
+                android:gravity="start"
+                android:layout_marginBottom="8dp"
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
+                android:textStyle="bold" />
 
             <TextView
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
                 android:id="@+id/nombreApellidoTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"/>
+                android:gravity="start"
+                android:layout_marginBottom="8dp"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/descripcionCortaTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@android:color/black"
-                android:gravity="center"
-                android:layout_marginBottom="16dp"/>
-
-            <TextView
+                android:paddingRight="16dp"
+                android:paddingLeft="16dp"
                 android:id="@+id/descripcionLargaTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@android:color/black"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:text="📝 Descripción" />
 
             <TextView
+                android:padding="16dp"
                 android:id="@+id/mascotasTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seleccionar mascotas"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="8dp"/>
-
-            <LinearLayout
-                android:id="@+id/mascotasContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:text="🐾 Seleccionar mascotas"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="8dp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/solicitarReservaButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Solicitar Reserva"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@android:color/white"
-                android:enabled="false" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mascotasRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
 
-            <!-- Botón para añadir a favoritos -->
-            <Button
-                android:id="@+id/addToFavoritesButton"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Añadir a favoritos"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/gold"
-                android:textColor="@android:color/white" />
+                android:orientation="horizontal"
+                android:gravity="center"> <!-- Esto centra todos los elementos en el LinearLayout -->
+
+                <Button
+                    android:id="@+id/solicitarReservaButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:drawableLeft="@drawable/ic_reservas"
+                    android:text="Solicitar Reserva"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
