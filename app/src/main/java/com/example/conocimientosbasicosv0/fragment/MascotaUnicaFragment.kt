@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.conocimientosbasicosv0.R
 import com.example.conocimientosbasicosv0.api.RetrofitClient
-import com.example.conocimientosbasicosv0.data.MascotaInfo
+import com.example.conocimientosbasicosv0.model.MascotaInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

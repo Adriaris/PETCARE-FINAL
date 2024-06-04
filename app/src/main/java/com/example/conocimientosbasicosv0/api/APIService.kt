@@ -1,10 +1,7 @@
 package com.example.proyectom13.retrofit
 
 
-import com.example.conocimientosbasicosv0.data.MascotaInfo
-import com.example.conocimientosbasicosv0.model.Cuenta
-import com.example.conocimientosbasicosv0.model.Cuidador
-import com.example.conocimientosbasicosv0.model.Mascota
+import com.example.conocimientosbasicosv0.model.MascotaInfo
 import com.example.conocimientosbasicosv0.model.Raza
 import com.example.conocimientosbasicosv0.model.ReservaMascotaRequest
 import com.example.conocimientosbasicosv0.model.ReservaRequest
@@ -14,7 +11,6 @@ import retrofit2.http.POST
 import retrofit2.Call
 import retrofit2.http.DELETE
 import retrofit2.http.HTTP
-import retrofit2.http.Headers
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -69,7 +65,7 @@ interface APIService {
     fun getMascotasReservadas(@Path("idDueno") idDueño: Int): Call<Map<String, String>>
 
     @GET("getReservasDueño/{idDueno}")
-    fun getReservas(@Path("idDueno") idDueño: Int): Call<Map<String, Map<String, Any>>>
+    fun getReservasDueño(@Path("idDueno") idDueño: Int): Call<Map<String, Map<String, Any>>>
 
     @GET("getReservasCuidador/{idCuidador}")
     fun getReservasCuidador(@Path("idCuidador") idCuidador: Int): Call<Map<String, Map<String, Any>>>

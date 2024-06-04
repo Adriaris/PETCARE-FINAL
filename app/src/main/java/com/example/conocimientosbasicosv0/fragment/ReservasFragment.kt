@@ -2,6 +2,7 @@ package com.example.conocimientosbasicosv0.fragment
 
 import com.example.conocimientosbasicosv0.utils.SessionManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.conocimientosbasicosv0.R
 import com.example.conocimientosbasicosv0.adapter.ReservasAdapter
 import com.example.conocimientosbasicosv0.api.RetrofitClient
+import com.example.conocimientosbasicosv0.model.MascotaReserva
 import com.example.conocimientosbasicosv0.model.Reserva
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,29 +48,48 @@ class ReservasFragment : Fragment() {
     }
 
     private fun cargarReservas(idDueño: Int) {
-        RetrofitClient.create().getReservas(idDueño).enqueue(object : Callback<Map<String, Map<String, Any>>> {
+        RetrofitClient.create().getReservasDueño(idDueño).enqueue(object : Callback<Map<String, Map<String, Any>>> {
             override fun onResponse(call: Call<Map<String, Map<String, Any>>>, response: Response<Map<String, Map<String, Any>>>) {
                 if (response.isSuccessful) {
                     // Transformar la respuesta en una lista de objetos Reserva
-                    val reservasList = response.body()?.map {
-                        val mascotas = it.value["mascota"] as Map<String, Map<String, String>>
+                    val reservasList = response.body()?.map { entry ->
+                        val idReserva = entry.key.substringAfter("Reserva") // Asumiendo que el key es "ReservaX"
+                        val reservaMap = entry.value
+                        val mascotasMap = reservaMap["mascota"] as? Map<String, Map<String, Any>> ?: mapOf()
+                        val mascotas = mascotasMap.map { mascota ->
+                            MascotaReserva(
+                                idMascota = mascota.value["idMascota"] as? Int ?: 0,
+                                nombre = mascota.value["nombre"] as? String ?: "Desconocido",
+                                animal = mascota.value["animal"] as? String ?: "Desconocido",
+                                raza = mascota.value["raza"] as? String ?: "Desconocido"
+                            )
+                        }
                         Reserva(
-                            idReserva = it.key,
-                            nombreCuidador = it.value["Nombre: "] as String,
-                            apellidoUno = it.value["Apellido uno"] as String,
-                            apellidoDos = it.value["Apellido dos"] as String,
+                            idReserva = idReserva,
+                            nombreCuidador = reservaMap["Nombre: "] as? String ?: "",
+                            apellidoUno = reservaMap["Apellido uno"] as? String ?: "",
+                            apellidoDos = reservaMap["Apellido dos"] as? String ?: "",
+                            servicio = reservaMap["Servicio"] as? String ?: "",
                             mascotas = mascotas
                         )
                     } ?: emptyList()
-                    reservasAdapter.updateReservas(reservasList)
+
+                    // Actualizar el adapter del RecyclerView en el hilo principal
+                    activity?.runOnUiThread {
+                        reservasAdapter.updateReservas(reservasList)
+                    }
                 } else {
                     // Manejar respuesta no exitosa
+                    Log.e("APIError", "Error en la respuesta del servidor: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<Map<String, Map<String, Any>>>, t: Throwable) {
                 // Manejar fallo en la llamada
+                Log.e("APIError", "Error al realizar la llamada a la API: ${t.message}")
             }
         })
     }
+
+
 }

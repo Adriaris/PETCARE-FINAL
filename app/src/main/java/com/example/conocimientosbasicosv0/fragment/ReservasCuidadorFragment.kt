@@ -1,6 +1,5 @@
 package com.example.conocimientosbasicosv0.fragment
 
-import com.example.conocimientosbasicosv0.utils.SessionManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.conocimientosbasicosv0.R
 import com.example.conocimientosbasicosv0.adapter.ReservasAdapter
 import com.example.conocimientosbasicosv0.api.RetrofitClient
+import com.example.conocimientosbasicosv0.model.MascotaReserva
 import com.example.conocimientosbasicosv0.model.Reserva
+import com.example.conocimientosbasicosv0.utils.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,11 +29,12 @@ class ReservasCuidadorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(view)
 
-        val sessionManager = SessionManager(requireContext())
-        val idCuidador = sessionManager.getIdCuenta()
+        // Obtener el ID del cuidador desde el SessionManager u otro método adecuado
+        val idCuidador = SessionManager(requireContext()).getIdCuenta()
 
+        // Si el ID del cuidador no es nulo, cargar las reservas
         if (idCuidador != 0) {
-            cargarReservasCuidador(idCuidador)
+            cargarReservas(idCuidador)
         }
     }
 
@@ -43,19 +45,19 @@ class ReservasCuidadorFragment : Fragment() {
         recyclerView.adapter = reservasAdapter
     }
 
-    private fun cargarReservasCuidador(idCuidador: Int) {
+    private fun cargarReservas(idCuidador: Int) {
         RetrofitClient.create().getReservasCuidador(idCuidador).enqueue(object : Callback<Map<String, Map<String, Any>>> {
             override fun onResponse(call: Call<Map<String, Map<String, Any>>>, response: Response<Map<String, Map<String, Any>>>) {
                 if (response.isSuccessful) {
-                    val reservasList = response.body()?.map {
-                        val mascotas = it.value["Mascotas"] as Map<String, Map<String, String>>
+                    val reservasList = response.body()?.map { entry ->
+                        val reservaMap = entry.value
                         Reserva(
-                            idReserva = it.key,
-                            nombreCuidador = it.value["Nombre: "] as String,
-                            apellidoUno = it.value["Apellido uno"] as String,
-                            apellidoDos = it.value["Apellido dos"] as String,
-                            mascotas = mascotas
-                            //servicio = it.value["Servicio"] as String
+                            idReserva = entry.key.substringAfter("Reserva: "),
+                            nombreCuidador = reservaMap["Nombre: "] as? String ?: "",
+                            apellidoUno = reservaMap["Apellido uno: "] as? String ?: "",
+                            apellidoDos = reservaMap["Apellido dos: "] as? String ?: "",
+                            servicio = reservaMap["Servicio"] as? String ?: "",
+                            mascotas = parseMascotas(reservaMap["Mascotas"] as Map<String, Map<String, Any>>)
                         )
                     } ?: emptyList()
                     reservasAdapter.updateReservas(reservasList)
@@ -69,4 +71,16 @@ class ReservasCuidadorFragment : Fragment() {
             }
         })
     }
+
+    private fun parseMascotas(mascotasMap: Map<String, Map<String, Any>>): List<MascotaReserva> {
+        return mascotasMap.map { (_, v) ->
+            MascotaReserva(
+                idMascota = v["idMascota"] as? Int ?: 0,
+                nombre = v["nombre"] as? String ?: "Desconocido",
+                animal = v["animal"] as? String ?: "Desconocido",
+                raza = v["raza"] as? String ?: "Desconocido"
+            )
+        }
+    }
+
 }

@@ -5,10 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.conocimientosbasicosv0.R
-import com.example.conocimientosbasicosv0.data.MascotaInfo
+import com.example.conocimientosbasicosv0.model.MascotaInfo
 
 class MascotasAdapter(
     private val mascotasList: List<MascotaInfo>,

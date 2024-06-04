@@ -19,14 +19,15 @@ class ReservasAdapter(private var reservas: List<Reserva>) : RecyclerView.Adapte
         fun bind(reserva: Reserva) {
             nombreTextView.text = reserva.nombreCuidador
             apellidosTextView.text = "${reserva.apellidoUno} ${reserva.apellidoDos}"
-            //servicioTextView.text = reserva.servicio
+            servicioTextView.text = reserva.servicio
 
-            val mascotasInfo = reserva.mascotas.entries.joinToString("\n") { entry ->
-                val mascota = entry.value
-                "${mascota["animal"]}: ${mascota["nombre"]} (${mascota["raza"]})"
+            // Formateando la información de las mascotas
+            val mascotasInfo = reserva.mascotas.joinToString("\n") { mascota ->
+                "${mascota.nombre} (${mascota.raza})"
             }
             mascotasTextView.text = mascotasInfo
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservaViewHolder {
