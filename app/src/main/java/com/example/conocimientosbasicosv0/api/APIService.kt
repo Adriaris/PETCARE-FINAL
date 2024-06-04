@@ -32,6 +32,9 @@ interface APIService {
     @GET("getServiciosCuidador/{id}")
     fun getServiciosCuidador(@Path("id") id: Int): Call<Map<String, List<String>>>
 
+    @GET("getServicios/{idCuidador}")
+    fun getServicios(@Path("idCuidador") idCuidador: Int): Call<Map<String, Map<String, Any>>>
+
     @PUT("updateC")
     fun updateC(@Body cuentaMap: Map<String, String>): Call<Void>
 

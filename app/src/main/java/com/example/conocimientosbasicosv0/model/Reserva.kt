@@ -5,5 +5,6 @@ data class Reserva(
     val nombreCuidador: String,
     val apellidoUno: String,
     val apellidoDos: String,
-    val mascotas: Map<String, Map<String, String>>
+    val mascotas: Map<String, Map<String, String>>,
+
 )
