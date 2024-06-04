@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.conocimientosbasicosv0.R
-import com.example.conocimientosbasicosv0.fragment.RegistroCuidadorFragment
+import com.example.conocimientosbasicosv0.fragment.UpdateCuidadorFragment
 
 import com.example.conocimientosbasicosv0.fragment.PerfilFragment
 import com.example.conocimientosbasicosv0.fragment.ReservasCuidadorFragment
@@ -37,7 +37,7 @@ class HomeCuidadorActivity : AppCompatActivity() {
 
             R.id.iconoConfiguracion -> {
                 supportFragmentManager.commit {
-                    replace<RegistroCuidadorFragment>(R.id.frameContainerCuidador)
+                    replace<UpdateCuidadorFragment>(R.id.frameContainerCuidador)
                     setReorderingAllowed(true)
                     addToBackStack("replacement")
                 }

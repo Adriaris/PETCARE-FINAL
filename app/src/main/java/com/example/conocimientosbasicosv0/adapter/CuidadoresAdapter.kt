@@ -78,6 +78,7 @@ class CuidadoresAdapter(private var cuidadoresList: List<Cuidador>, private val 
             }
             context.startActivity(intent)
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -88,7 +89,11 @@ class CuidadoresAdapter(private var cuidadoresList: List<Cuidador>, private val 
         cuidadoresList = newCuidadoresList
         notifyDataSetChanged()
     }
+
+
 }
+
+
 
 // Extension function to convert dp to px
 fun Int.dpToPx(context: Context): Int {

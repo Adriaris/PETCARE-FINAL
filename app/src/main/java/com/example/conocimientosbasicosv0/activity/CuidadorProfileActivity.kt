@@ -208,6 +208,10 @@ class CuidadorProfileActivity : AppCompatActivity() {
     }
 
 
+
+    private fun mascotaReservadaConExito() {
+        mascotasAdapter.clearSelectedMascotas()
+    }
     private fun setMascotaReservada(idReserva: Int, selectedMascotas: List<Int>) {
         val idsReservaMascotas = ReservaMascotaRequest(idReserva, selectedMascotas)
         Log.d("setMascotaReservada", "Enviando datos al endpoint: $idsReservaMascotas")
@@ -216,6 +220,7 @@ class CuidadorProfileActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@CuidadorProfileActivity, "Reserva y asignación de mascotas realizadas con éxito", Toast.LENGTH_SHORT).show()
+                    mascotaReservadaConExito()
                 } else {
                     Toast.makeText(this@CuidadorProfileActivity, "Error al asignar las mascotas a la reserva", Toast.LENGTH_SHORT).show()
                     Log.e("setMascotaReservada", "Error al asignar las mascotas a la reserva: ${response.errorBody()?.string()}")
@@ -228,6 +233,9 @@ class CuidadorProfileActivity : AppCompatActivity() {
             }
         })
     }
+
+
+
 
 
     private fun verificarSiCuidadorEsFavorito(dueñoId: Int, cuidadorId: Int) {

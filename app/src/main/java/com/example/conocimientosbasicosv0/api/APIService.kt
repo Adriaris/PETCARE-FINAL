@@ -31,8 +31,11 @@ interface APIService {
     @GET("getServicios/{idCuidador}")
     fun getServicios(@Path("idCuidador") idCuidador: Int): Call<Map<String, Map<String, Any>>>
 
-    @PUT("updateC")
+    @PUT("updateC") //update cuenta
     fun updateC(@Body cuentaMap: Map<String, String>): Call<Void>
+
+    @PUT("upCuidador")
+    fun updateCuidador(@Body datosCuidador: Map<String, @JvmSuppressWildcards Any>): Call<Void>
 
     @GET("getTimeAccessDueño/{idDueno}")
     fun getTimeAccessDueño(@Path("idDueno") idDueno: Int): Call<Int>
@@ -48,7 +51,6 @@ interface APIService {
 
     @GET("getAnimales")
     fun getAnimales(): Call<List<String>>
-
     @GET("getRazas/{idAnimal}")
     fun getRazas(@Path("idAnimal") idAnimal: Int): Call<Map<String, Raza>>
 

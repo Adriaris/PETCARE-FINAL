@@ -62,6 +62,13 @@ class MascotasAdapter(
             notifyItemChanged(position)
             onMascotaClick(mascota)
         }
+
+    }
+
+
+    fun clearSelectedMascotas() {
+        selectedMascotas.clear()
+        notifyDataSetChanged()
     }
 
 
