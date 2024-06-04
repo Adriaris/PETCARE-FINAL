@@ -21,6 +21,7 @@ class ReservasAdapter(private var reservas: List<Reserva>) : RecyclerView.Adapte
             apellidosTextView.text = "${reserva.apellidoUno} ${reserva.apellidoDos}"
             servicioTextView.text = reserva.servicio
 
+
             // Formateando la información de las mascotas
             val mascotasInfo = reserva.mascotas.joinToString("\n") { mascota ->
                 "${mascota.nombre} (${mascota.raza})"

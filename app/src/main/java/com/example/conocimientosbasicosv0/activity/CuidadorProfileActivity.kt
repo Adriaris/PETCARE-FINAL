@@ -221,6 +221,7 @@ class CuidadorProfileActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(this@CuidadorProfileActivity, "Reserva y asignación de mascotas realizadas con éxito", Toast.LENGTH_SHORT).show()
                     mascotaReservadaConExito()
+                    finish()
                 } else {
                     Toast.makeText(this@CuidadorProfileActivity, "Error al asignar las mascotas a la reserva", Toast.LENGTH_SHORT).show()
                     Log.e("setMascotaReservada", "Error al asignar las mascotas a la reserva: ${response.errorBody()?.string()}")

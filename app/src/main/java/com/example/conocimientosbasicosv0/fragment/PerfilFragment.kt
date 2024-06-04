@@ -63,7 +63,7 @@ class PerfilFragment : Fragment() {
         editTextApellidoUno = view.findViewById(R.id.editTextApellidoUno)
         editTextApellidoDos = view.findViewById(R.id.editTextApellidoDos)
         editTextUsername = view.findViewById(R.id.editTextUsername)
-        textViewEmail = view.findViewById(R.id.textViewEmail)
+        //textViewEmail = view.findViewById(R.id.textViewEmail)
         editTextNumMovil = view.findViewById(R.id.editTextNumMovil)
         editTextNumTelefono = view.findViewById(R.id.editTextNumTelefono)
         editTextPasswd = view.findViewById(R.id.editTextPasswd)
@@ -100,7 +100,7 @@ class PerfilFragment : Fragment() {
             editTextApellidoUno.setText(it.apellidoPrimero)
             editTextApellidoDos.setText(it.apellidoDos)
             editTextUsername.setText(it.username)
-            textViewEmail.text = it.email
+            //textViewEmail.text = it.email
             editTextNumMovil.setText(it.movil?.toString())
             editTextNumTelefono.setText(it.telefono?.toString())
             editTextPasswd.setText(it.passwd)

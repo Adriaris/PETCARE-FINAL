@@ -53,7 +53,7 @@ class ReservasFragment : Fragment() {
                 if (response.isSuccessful) {
                     // Transformar la respuesta en una lista de objetos Reserva
                     val reservasList = response.body()?.map { entry ->
-                        val idReserva = entry.key.substringAfter("Reserva") // Asumiendo que el key es "ReservaX"
+                        val idReserva = entry.key.substringAfter("Reserva") // key es "ReservaX"
                         val reservaMap = entry.value
                         val mascotasMap = reservaMap["mascota"] as? Map<String, Map<String, Any>> ?: mapOf()
                         val mascotas = mascotasMap.map { mascota ->

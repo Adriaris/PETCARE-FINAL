@@ -93,11 +93,13 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
                 } else {
+
                     handleLoginError(response.code())
                 }
             }
 
             override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                Log.d("LOGIN ERROR", "${t.message}")
                 Toast.makeText(this@LoginActivity, "Error al iniciar sesión: ${t.message}", Toast.LENGTH_SHORT).show()
                 t.printStackTrace()
             }
